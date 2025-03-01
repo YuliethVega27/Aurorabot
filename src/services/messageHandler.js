@@ -5,7 +5,7 @@ class MessageHandler {
     constructor() {}
 
     async handleIncomingMessage(message, senderInfo) {
-        const phoneNumber = to.replace(/\D/g, '');
+        const fromNumber = message.from.slice(0, 2) + message.from.slice(3);
 
         console.log("📩 Mensaje recibido de:", fromNumber); // Depuración
 
