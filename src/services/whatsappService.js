@@ -42,7 +42,6 @@ async sendMessage(to, body, messageId = null) {
       console.error('❌ Error enviando mensaje:', error.response ? error.response.data : error.message);
     }
   }
-}
   async markAsRead(messageId) {
     try {
       await axios({
