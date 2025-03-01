@@ -1,3 +1,5 @@
+import whatsappService from "./whatsappService.js";
+
 class InteractiveMenus {
     constructor() {
         this.menuFunctions = {
