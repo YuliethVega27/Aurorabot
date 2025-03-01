@@ -3,45 +3,46 @@ import config from '../config/env.js';
 
 class WhatsAppService {
 async sendMessage(to, body, messageId = null) {
-    if (!to || !body) {
-        console.error('❌ Error: "to" y "body" son obligatorios.');
-        return;
-    }
-
-    const phoneNumber = to.toString().trim();
-
-    const data = {
-        messaging_product: 'whatsapp',
-        recipient_type: "individual", // ✅ Agregamos el tipo de destinatario
-        to: phoneNumber,
-        type: 'text',
-        text: { body: body.trim() } // ✅ Aseguramos que el texto sea un objeto con 'body'
-    };
-
-    if (messageId) {
-        data.context = { message_id: messageId };
-    }
-
-    console.log("📤 Enviando mensaje a WhatsApp API:", JSON.stringify(data, null, 2));
-
     try {
-        const response = await axios({
-            method: 'POST',
-            url: `https://graph.facebook.com/${config.API_VERSION}/${config.BUSINESS_PHONE}/messages`,
-            headers: {
-                'Authorization': `Bearer ${config.API_TOKEN}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            data: data
-        });
+      // ✅ Validar que `to` y `body` no estén vacíos
+      if (!to || !body) {
+        console.error('🚨 Error: "to" y "body" son obligatorios.');
+        return;
+      }
 
-        console.log('✅ Mensaje enviado con éxito:', response.data);
+      // ✅ Formatear el número de teléfono correctamente
+      const cleanTo = to.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+      console.log("📞 Enviando mensaje a:", cleanTo);
+
+      // ✅ Definir el objeto de datos para la API
+      const data = {
+        messaging_product: 'whatsapp',
+        to: cleanTo,
+        type: 'text',
+        text: { body }
+      };
+
+      if (messageId) {
+        data.context = { message_id: messageId };  // Si hay un mensaje previo, responder en contexto
+      }
+
+      // ✅ Enviar solicitud a la API de WhatsApp
+      const response = await axios({
+        method: 'POST',
+        url: `https://graph.facebook.com/${config.API_VERSION}/${config.BUSINESS_PHONE}/messages`,
+        headers: {
+          Authorization: `Bearer ${config.API_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        data: data
+      });
+
+      console.log('✅ Mensaje enviado con éxito:', response.data);
     } catch (error) {
-        console.error('❌ Error enviando mensaje:', error.response?.data || error.message);
+      console.error('❌ Error enviando mensaje:', error.response ? error.response.data : error.message);
     }
+  }
 }
-
   async markAsRead(messageId) {
     try {
       await axios({
