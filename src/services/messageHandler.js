@@ -28,7 +28,7 @@ async handleIncomingMessage(message, senderInfo) {
     if (this.isGreeting(incomingMessage)) {
         await this.handleGreeting(fromNumber, senderInfo);
     } else if (this.isMenuCommand(incomingMessage)) {
-        await this.interactiveMenus.sendAreaMenu(fromNumber);
+        await this.interactiveMenus.sendMainMenu(fromNumber);
     } else {
         // Procesar mensajes interactivos y texto normalmente
         const response = await respuestadetrigger(incomingMessage);
