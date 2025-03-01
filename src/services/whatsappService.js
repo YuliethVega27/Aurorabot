@@ -2,36 +2,44 @@ import axios from 'axios';
 import config from '../config/env.js';
 
 class WhatsAppService {
- async sendMessage(to, body, messageId = null) {
+async sendMessage(to, body, messageId = null) {
     if (!to || !body) {
-      console.error('Error sending message: "to" and "body" are required.');
-      return;
+        console.error('❌ Error: "to" y "body" son obligatorios.');
+        return;
     }
+    const phoneNumber = to.toString().trim();
 
     const data = {
-      messaging_product: 'whatsapp',
-      to,
-      text: { body }
+        messaging_product: 'whatsapp',
+        to: phoneNumber,
+        type: 'text', 
+        text: { body: body.trim() } 
     };
 
     if (messageId) {
-      data.context = { message_id: messageId };
+        data.context = { message_id: messageId };
     }
 
+    console.log("📤 Enviando mensaje a WhatsApp API:", JSON.stringify(data, null, 2)); // Debug
+
     try {
-      const response = await axios({
-        method: 'POST',
-        url: `https://graph.facebook.com/${config.API_VERSION}/${config.BUSINESS_PHONE}/messages`,
-        headers: {
-          Authorization: `Bearer ${config.API_TOKEN}`,
-        },
-        data: data
-      });
-      console.log('Message sent successfully:', response.data);
+        const response = await axios({
+            method: 'POST',
+            url: `https://graph.facebook.com/${config.API_VERSION}/${config.BUSINESS_PHONE}/messages`,
+            headers: {
+                Authorization: `Bearer ${config.API_TOKEN}`,
+                'Content-Type': 'application/json', 
+                'Accept': 'application/json
+            },
+            data: data
+        });
+
+        console.log('✅ Mensaje enviado con éxito:', response.data);
     } catch (error) {
-      console.error('Error sending message:', error.response ? error.response.data : error.message);
+        console.error('❌ Error enviando mensaje:', error.response?.data || error.message);
     }
-  }
+}
+
   async markAsRead(messageId) {
     try {
       await axios({
