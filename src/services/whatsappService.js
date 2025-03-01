@@ -7,28 +7,30 @@ async sendMessage(to, body, messageId = null) {
         console.error('❌ Error: "to" y "body" son obligatorios.');
         return;
     }
+
     const phoneNumber = to.toString().trim();
 
     const data = {
         messaging_product: 'whatsapp',
+        recipient_type: "individual", // ✅ Agregamos el tipo de destinatario
         to: phoneNumber,
-        type: 'text', 
-        text: { body: body.trim() } 
+        type: 'text',
+        text: { body: body.trim() } // ✅ Aseguramos que el texto sea un objeto con 'body'
     };
 
     if (messageId) {
         data.context = { message_id: messageId };
     }
 
-    console.log("📤 Enviando mensaje a WhatsApp API:", JSON.stringify(data, null, 2)); // Debug
+    console.log("📤 Enviando mensaje a WhatsApp API:", JSON.stringify(data, null, 2));
 
     try {
         const response = await axios({
             method: 'POST',
             url: `https://graph.facebook.com/${config.API_VERSION}/${config.BUSINESS_PHONE}/messages`,
             headers: {
-                Authorization: `Bearer ${config.API_TOKEN}`,
-                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${config.API_TOKEN}`,
+                'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
             data: data
