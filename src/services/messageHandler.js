@@ -78,7 +78,7 @@ isGreeting(message) {
 async handleGreeting(fromNumber, senderInfo) {
     const name = senderInfo?.profile?.name || "amigx";
     await whatsappService.sendMessage(fromNumber, `¡🌸 Hola ${name}! *Soy Aurora, tu compañera en este camino de maternidad.* 🤰💖 Estoy aquí para escucharte, acompañarte y brindarte información útil en cada etapa de tu embarazo. Escríbeme cuando lo necesites o explora el menú para descubrir cómo puedo apoyarte.`);
-    await this.interactiveMenus.sendAreaMenu(fromNumber);
+    await this.interactiveMenus.sendMainMenu(fromNumber);
 }
 
 async processResponse(response, fromNumber) {
