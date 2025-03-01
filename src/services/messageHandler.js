@@ -38,10 +38,16 @@ class MessageHandler {
     // ✅ Solo responde con el mensaje de Aurora, sin menús ni interacciones extra
     async handleSimpleGreeting(fromNumber, senderInfo) {
         const name = senderInfo?.profile?.name || "amigx";
+        
+        console.log("📝 Marcando mensaje como leído...");
+        await whatsappService.markAsRead(fromNumber); // ✅ Marca el mensaje como leído
+    
         console.log("📝 Enviando respuesta de Aurora...");
         await whatsappService.sendMessage(fromNumber, `¡🌸 Hola ${name}! *Soy Aurora, tu compañera en este camino de maternidad.* 🤰💖\nEstoy aquí para escucharte, acompañarte y brindarte información útil en cada etapa de tu embarazo. Escríbeme cuando lo necesites.`);
+        
         console.log("✅ Mensaje de Aurora enviado.");
     }
+
 }
 
 export default new MessageHandler();
