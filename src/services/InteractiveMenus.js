@@ -7,17 +7,19 @@ class InteractiveMenus {
     }
 
     async sendMainMenu(to) {
-        const headerText = '📌 Menú Principal';
-        const bodyText = 'Seleccione una de las siguientes opciones:';
-        const footerText = 'Estoy aquí para ayudarle';
-        const buttonText = 'Ver Opciones';
+        const headerText = '📌 Menú de Bienestar';
+        const bodyText = 'Elige la opción que mejor describe cómo te sientes:';
+        const footerText = 'Aurora está aquí para apoyarte 💙';
+        const buttonText = 'Ver opciones';
+
         const sections = [
             {
-                title: 'Categorías',
+                title: 'Tu bienestar emocional',
                 rows: [
-                    { id: 'info', title: 'ℹ️ Información', description: 'Consulta información relevante' },
-                    { id: 'contacto', title: '📞 Contacto', description: 'Accede a datos de contacto' },
-                    { id: 'soporte', title: '🛠 Soporte', description: 'Obtén asistencia técnica' }
+                    { id: 'urgent_support', title: '🆘 Necesito ayuda ya', description: 'Me siento abrumada y necesito apoyo' },
+                    { id: 'emotional_check', title: '🤔 ¿Esto es normal?', description: 'Tengo dudas sobre mis emociones' },
+                    { id: 'mental_health_info', title: '📖 Quiero aprender más', description: 'Conoce más sobre salud mental en el embarazo' },
+                    { id: 'free_talk', title: '💬 Solo quiero hablar', description: 'Expresa lo que sientes sin juicios' }
                 ]
             }
         ];
