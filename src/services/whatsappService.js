@@ -29,7 +29,7 @@ async sendMessage(to, body, messageId = null) {
             headers: {
                 Authorization: `Bearer ${config.API_TOKEN}`,
                 'Content-Type': 'application/json', 
-                'Accept': 'application/json
+                'Accept': 'application/json'
             },
             data: data
         });
